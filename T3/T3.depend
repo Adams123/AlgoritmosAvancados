@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1384972945 source:d:\dropbox\public\faculdade\a. avançados\t3\main.c
+	"matrizes.h"
+
+1385341222 d:\dropbox\public\faculdade\a. avançados\t3\matrizes.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1385341217 source:d:\dropbox\public\faculdade\a. avançados\t3\matrizes.c
+	"matrizes.h"
+

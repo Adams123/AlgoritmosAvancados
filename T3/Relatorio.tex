@@ -1,0 +1,227 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{indentfirst}
+%\usepackage{arev}
+\usepackage{amsthm,amsfonts,amsmath,amssymb}
+\usepackage[brazilian]{babel}
+\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
+%\usepackage{multicol}
+\usepackage{setspace}
+%\usepackage{natbib}
+\usepackage[usenames,dvipsnames]{xcolor} 
+\usepackage{pgf,tikz}
+%\usepackage{algpseudocode}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{wrapfig}
+%\usepackage{listings}
+%\usepackage[linesnumbered, ruled, portuguese]{algorithm2e}
+\usepackage{multirow}
+%\usepackage{verbatim}
+%\usepackage[active,tightpage]{preview}
+%\PreviewEnvironment{tikzpicture}
+%\setlength\PreviewBorder{5pt}
+\usepackage{geometry}
+\usepackage[pdftex]{hyperref}
+\usepackage{listings}
+\usepackage[normalem]{ulem}
+\geometry{a4paper,inner=2.0cm,outer=2.0cm,top=2.0cm,bottom=2.0cm}
+
+
+\newcommand{\pr}{\hspace*{0.6cm}}
+\newcommand{\vesp}{\vspace*{.3cm}}
+
+\newcommand{\sen}{\mbox{\,sen}}
+\newcommand{\cotg}{\mbox{\,cotg\,}}
+\newcommand{\tg}{\mbox{\,tg\,}}
+\newcommand{\cose}{\mbox{\,cos\,}}
+\newcommand{\expo}{\mbox{\,e\,}}
+\newcommand{\logg}{\mbox{\,log}}
+\newcommand{\Sum}{\displaystyle\sum}
+\newcommand{\Prod}{\displaystyle\prod}
+\newcommand{\Int}{\displaystyle\int}
+\newcommand{\dint}{\, \mathrm{d}}
+\newcommand{\Lim}{\displaystyle \lim}
+\newcommand{\Frac}{\displaystyle\frac}
+
+\newcommand{\Nc}{N_{cont}}
+\newcommand{\Ni}{N_{int}}
+\newcommand{\Ne}{N_{estrela}}
+
+\newcommand{\Dparc}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\Dparcn}[3]{\dfrac{\partial^#3 #1}{\partial^#3 #2}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\I}{I_u}
+\newcommand{\Fi}{\varphi}
+\newcommand{\se}{\mbox{ se }}
+\newcommand{\norma}[1]{\left|\left| #1 \right|\right|}
+\newcommand{\sistema}[1]{ \left\{ #1 \right. }
+
+\newtheorem{exemplo}{\pr \sc Exemplo}[section]%[chapter]
+\newtheorem{defi}{\pr \sc Defini\c{c}\~ao}[section]%[chapter]
+\newtheorem{obs}{\pr \sc Observa\cao}[section]%[chapter]
+\newtheorem{teor}{\pr \sc Teorema}[section]%[chapter]
+\newtheorem{lema}{\pr \sc Lema}[section]%[chapter]
+\newtheorem{prop}{\pr \sc Proposi\cao}[section]%[chapter]
+\newtheorem{exercise}{\pr \sc Exerc\'\i cios}[section]%[chapter]
+\newtheorem{alg}{\pr Algoritmo}[section]%[chapter]
+
+\setlength{\columnsep}{1cm}
+
+\setlength{\columnsep}{1cm}
+
+%basicstyle=\footnotesize\ttfamily,
+
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{center}
+	UNIVERSIDADE DE SÃO PAULO – USP
+	
+	INSTITUTO DE CIÊNCIAS MATEMÁTICAS E DE COMPUTAÇÃO
+	
+	DEPARTAMENTO DE SISTEMAS DE COMPUTAÇÃO
+	
+	\vspace{7cm}
+	
+	\Large{\textbf{RELATÓRIO}}
+	 
+	\Large{\textbf{Projeto 3 - Fibonacci em $O\log_n$}}
+	
+	\vspace{6cm}
+	
+	Alunos: Adams Vietro Codignotto da Silva - $6791943$ \\ 
+			Guilherme da Silva Biondo - $8124267$
+	
+	\vspace{6cm}
+	
+	São Carlos
+	
+	2013
+\end{center}
+
+\newpage
+
+\pagenumbering{arabic}
+
+\section{Introdução}
+
+O trabalho foi implementado utilizando as técnicas fornecidas na descrição do mesmo. Foi desenvolvido utilizando a linguagem C, no Linux Xubuntu 13.10 64bits. O arquivo contem um arquivo \emph{Makefile} para compilação do programa, usando os comandos \emph{make all2} para compilação inicial, \textit{make all} para compilações futuras e \emph{make run} para execução do mesmo.
+
+\section{Modelagem do problema}	
+\subsection{Matriz base de Fibonacci}
+Primeiramente foi necessário encontrar a matriz base para o cálculo da Sequência de Fibonacci. Vamos mostrar que a matriz 
+$\bigl(\begin{smallmatrix}
+1&1\\ 1&0
+\end{smallmatrix} \bigr)$
+é a matriz utilizada para o cálculo dos termos de Fibonacci. 
+Temos inicialmente a sequência definida por $F_n=F_{n-1} + F_{n-2}$. Da combinação linear, podemos calcular $F_2$ como:
+\begin{equation}\nonumber
+     \begin{bmatrix}
+       2\\ 1\\
+     \end{bmatrix}
+     =
+     \begin{bmatrix}
+       F_2\\ F_1\\
+     \end{bmatrix}
+     =
+     \begin{bmatrix}
+     1&1 \\ 1&0 \\
+     \end{bmatrix}
+     \begin{bmatrix}
+     F_1\\ F_0\\
+     \end{bmatrix}
+     =
+     \begin{bmatrix}
+     1&1 \\ 1&0 \\
+     \end{bmatrix}
+     \begin{bmatrix}
+       1\\ 1\\
+     \end{bmatrix}
+     =
+     A      \begin{bmatrix}
+       1\\ 1\\
+     \end{bmatrix}
+\end{equation}
+Podemos calcular $F_3$ conforme a equação a seguir, denotando A = $\bigl(\begin{smallmatrix}
+1&1\\ 1&0
+\end{smallmatrix} \bigr)$:
+\begin{equation}\nonumber
+\begin{bmatrix}
+3\\ 2\\
+\end{bmatrix}=
+\begin{bmatrix}
+F_3\\ F_2\\
+\end{bmatrix}=
+A \times \begin{bmatrix}
+F_2\\ F_1\\
+\end{bmatrix}=
+A \times A \times \begin{bmatrix}
+F_1\\ F_0\\
+\end{bmatrix}= A^2 \begin{bmatrix}
+1\\ 1\\
+\end{bmatrix}
+\end{equation}
+Então generalizando, temos:
+\begin{equation}\nonumber
+\begin{bmatrix}
+F_{n+1}\\
+F_{n}\\
+\end{bmatrix}
+=
+A^n \times \begin{bmatrix}
+       1\\ 1\\
+\end{bmatrix}
+\end{equation}
+\subsection{Algoritmo de Strassen}
+Também utilizamos o Algoritmo de Strassen para efetuar a multiplicação de matrizes, uma vez que este também faz parte de métodos de Divisão e Conquista. Este algoritmo se resume em realizar a multiplicação de matrizes 2x2 em $O(n^2)$ ao invéz do usual $O(n^3)$.
+Dadas duas matrizes A=$\bigl(\begin{smallmatrix}
+a&b\\ c&d
+\end{smallmatrix} \bigr)$ e B=$\bigl(\begin{smallmatrix}
+e&f\\ g&h
+\end{smallmatrix} \bigr)$, temos que A$\times$B pode ser resumido em:
+\begin{equation} \nonumber
+\begin{array}{lcl}
+P_1 = a\times(f-h) & & r = P_5 + P_4 - P_2 + P_6\\
+P_2 = (a+b)\times h & & s = P_1 + P_2\\
+P_3 = (c+d)\times e & & t = P_3 + P_4\\
+P_4 = d \times (g-e) & & u = P_5 + P_1 - P_3 - P_7\\
+P_5 = (a+d) \times (e+h) & & \\
+P_6 = (b-d) \times (g+h) & & \\
+P_7 = (a-c) \times (e+f) & & \\
+\end{array}
+\end{equation}
+
+\begin{equation}\nonumber
+A \times B = 
+\begin{bmatrix}
+r&s\\t&u
+\end{bmatrix}
+\end{equation}
+Este algoritmo utiliza 7 multiplicações e 18 adições/subtrações, resultando em $T(n) = 7T(n/2)+\Theta(n^2)$, uma vez que este divide as matrizes A e B em duas submatrizes $(n/2) \times (n/2)$.
+\subsection{Potenciação}
+Normalmente se calcula $a^n$ em $O(n)$. Utilizando o algoritmo de divisão e conquista provido nas instruções do trabalho, temos que $T(n)=T(n/2) + \Theta (1) \Rightarrow T(n) = \Theta (\log_n)$.
+Note que, para facilitar a implementação, utilizamos a propriedade
+\begin{equation}
+(x^{n/2})^2 = x^{n/2}*x^{n/2} = (x^2)^{n/2}
+\end{equation}
+
+\section{Experimentos e Resultados}
+	
+Durante a implementação do código, foi necessário o uso de \emph{long long int}, uma vez que a entrada é de tamanho $10^{11}$. Como utilizamos varias matrizes 2x2, o uso de memória tornou-se gigantesco, então todas as estruturas foram declaradas estaticamente. Deste modo evitamos o uso excessivo de memória ao alocarmos dinâmicamente as matrizes, pois com o uso de alocação dinâmica várias matrizes são criadas e usadas como parâmetro de retorno, assim não podendo ser desalocadas e gerando o uso excessivo de memória.
+A execução foi extremamente rápida, levando menos de 1 segundo para qualquer uma das entradas no intervalo definido.
+
+\section{Conclusões}
+A combinação de todos os algoritmos (Strassen ($O(n^2)$) e Potenciação em $O(Log_2n)$) resultou em um programa de $\simeq O(Log_n)$. Fez-se a saída ser o resto da divisão de $F_n$ por $10^6$ ($F_n  \mbox{mod} 10^6$) pelo fato de que ao realizarmos as multiplicações, iria ocorrer o overflow de variáveis nas matrizes. Então a cada iteração, realiza-se o mod $10^6$ sobre cada multiplicação durante a execução do algoritmo de Strassen, uma vez que todos os casos sempre iniciam-se com
+$\bigl(\begin{smallmatrix}
+1&1\\ 1&0
+\end{smallmatrix} \bigr)$.
+
+O método utilizado no trabalho mostrou-se muito mais eficaz que sua versão iterativa ou recursiva, que possuem $O(n)$. Entretanto, este método só é mais eficiente pela forma com que calculamos a potênciação das matrizes, uma vez que se não utilizassemos a Potenciação em $O(Log_2n)$ este método degeneraria para sua versão iterativa/recursiva (e ainda pior, pois utilizamos muito mais memória para os cálculos).
+\end{document}

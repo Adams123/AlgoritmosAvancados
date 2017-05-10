@@ -1,0 +1,51 @@
+# depslib dependency file v1.0
+1380849254 source:/home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/grafoo.c
+	"grafoo.h"
+
+1380853261 
+
+1380849051 /home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/grafoo.h
+	"lista.h"
+
+1380849036 /home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/lista.h
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
+1380849032 source:/home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/lista.c
+	"lista.h"
+
+1380848564 source:/home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/main.c
+	"grafoo.h"
+
+1380849401 source:d:\dropbox\public\faculdade\a. avan�ados\aaa\grafoo.c
+	"grafoo.h"
+
+1380853261 d:\dropbox\public\faculdade\a. avan�ados\aaa\grafoo.h
+	"lista.h"
+
+1380852390 d:\dropbox\public\faculdade\a. avan�ados\aaa\lista.h
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
+1380848564 source:d:\dropbox\public\faculdade\a. avan�ados\aaa\main.c
+	"grafoo.h"
+
+1381803960 source:/home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/grafoo.c
+	"grafoo.h"
+
+1381804287 /home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/grafoo.h
+	"lista.h"
+
+1381365543 /home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/lista.h
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
+1381365549 source:/home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/lista.c
+	"lista.h"
+
+1381544626 source:/home/adams/Dropbox/Public/Faculdade/A. Avançados/AAA/main.c
+	"grafoo.h"
+

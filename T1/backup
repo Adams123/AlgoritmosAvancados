@@ -1,0 +1,138 @@
+int backtracking(Grafo *G, int tam, enum Cores cor, int start, int *interacoes)
+{
+    int heuristica1=1, //verificacao adiante
+                    heuristica2=0, //mvr
+                                heuristica3 = 0; //grau
+    int stop=0;
+
+    if(heuristica1)
+    {
+        int flag=0;
+        while(start<tam)
+        {
+            printf("Pintando %s\n", G[start].estado);
+            flag=pintaAdjacentes(G,G[start].L,start, stop);
+            (*interacoes)++;
+            if(flag==-1) backtracking(G,tam,cor,start-1,interacoes);
+            if(!flag){
+//                printf("NAO FLAG EM %s\n", G[start].estado);
+//                start--;
+                backtracking(G,tam,cor,start-1,interacoes);
+            }
+            else start++;
+        }
+    }
+
+    if(heuristica1==0 && heuristica2==0 && heuristica3==0)
+    {
+        int i=start;
+        enum Cores COR;
+        G[start].cor=cor;
+        (*interacoes)++;
+
+        while(i<tam)
+        {
+            COR = verificaCores(G,G[i].L);
+            if(COR == Branco)
+            {
+                if(cor+1 <= 3 && start<tam)
+                    backtracking(G, tam, cor, start+1, interacoes);
+                else return 0;
+            }
+            else G[i].cor=COR;
+            (*interacoes)++;
+            i++;
+        }
+    }
+    return 1;
+}
+
+void resetaAdjacentes(Grafo *G, Lista *L, enum Cores cor){
+
+    no *p;
+    p=L->inicio;
+    while(p!=NULL){
+        G[p->valor].cores[p->cor]=0;
+        p=p->prox;
+    }
+}
+
+int pintaAdjacentes(Grafo *G, Lista *L, int pos, int stop)
+{
+    int i, flag=0;
+    no *p;
+
+    if(G[pos].cor!=Branco) //ja foi pintado, backtrack esta voltando
+    {
+        if(stop++ == 4)
+        {
+            stop=0;
+            resetaAdjacentes(G,G[pos].L,G[pos].cor);
+            return -1;
+        }
+        printf("Trocando de cor o vertice %s de %d ", G[pos].estado, G[pos].cor);
+        p=L->inicio;
+        resetaAdjacentes(G,G[pos].L,G[pos].cor);
+        if(G[pos].cor+1<=3)
+        {
+            G[pos].cor++;
+            i=G[pos].cor;
+        }
+        else
+        {
+            G[pos].cor=0;
+            i=0;
+        }
+        flag=1;
+        printf("para %d\n", i);
+        getchar();
+    }
+
+    for(i=0; i<3; i++)
+    {
+        if(flag==1) break;
+        if(G[pos].cores[i]==1)
+        {
+            G[pos].cor=i;
+            flag=1;
+        }
+        if(flag==1) break;
+    }
+
+    if(flag==0) return 0;
+
+    p=L->inicio;
+    while(p!=NULL)
+    {
+        G[p->valor].cores[i]=0;
+        p=p->prox;
+    }
+
+    return 1;
+}
+
+enum Cores verificaCores(Grafo *G, Lista *L) //verifica qual cor pode ser usada dada uma lista, e a retorna. caso nenhuma possa, retorna -1
+{
+    no *p;
+    int vet[4];
+    enum Cores cor = -1;
+    int i;
+    for(i=0; i<4; i++)
+        vet[i]=-1;
+    p=L->inicio;
+    while(p!=NULL)
+    {
+        if(G[p->valor].cor != Branco)
+            vet[G[p->valor].cor]=1;
+        p=p->prox;
+    }
+    for(i=0; i<4; i++)
+    {
+        if(vet[i]==-1)
+        {
+            cor=i;
+            break;
+        }
+    }
+    return cor;
+}
